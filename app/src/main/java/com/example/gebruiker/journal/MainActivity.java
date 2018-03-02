@@ -17,6 +17,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     EntryDatabase db;
     EntryAdapter adapter;
+
+    /** Create method with own toolbar and custom adapter set to a listView. */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,16 +27,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         db = EntryDatabase.getInstance(getApplicationContext());
-
         ListView entryList = findViewById(R.id.entryList);
         Cursor data = db.selectAll();
         adapter = new EntryAdapter(this, data);
-
         entryList.setAdapter(adapter);
         entryList.setOnItemClickListener(new listViewItemClicked());
         entryList.setOnItemLongClickListener(new listViewItemLongClicked());
     }
-
 
     /** Save position in list in saveInstanceState */
     @Override
@@ -58,19 +57,22 @@ public class MainActivity extends AppCompatActivity {
         entryList.setSelectionFromTop(index, top);
     }
 
+    /** Update the screen if you return to the activity. */
     @Override
     public void onResume(){
         super.onResume();
         updateData();
     }
 
+    /** Get send to the create entry page. */
     public void createEntry(View view) {
         Intent intent = new Intent(this, InputActivity.class);
         startActivity(intent);
     }
 
+    /** If an item in the listView is clicked the information of that item is put in an intent and
+     *  the detail page gets opened. */
     private class listViewItemClicked implements AdapterView.OnItemClickListener {
-
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             Cursor data = (Cursor) adapterView.getItemAtPosition(i);
@@ -79,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
             String description = data.getString(data.getColumnIndex("description"));
             String date = data.getString(data.getColumnIndex("timestamp"));
             JournalEntry clickedEntry = new JournalEntry(title, description, rating);
-
             Intent intent = new Intent(MainActivity.this, DetailActivity.class);
             intent.putExtra("clicked_entry", clickedEntry);
             intent.putExtra("date", date);
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /** If an item gets clicked on long it gets deleted. The screen is then updated. */
     private class listViewItemLongClicked implements AdapterView.OnItemLongClickListener {
         @Override
         public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -96,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /** Updates the screen. */
     private void updateData() {
         adapter.swapCursor(db.selectAll());
     }
-
 
 }

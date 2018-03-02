@@ -11,20 +11,24 @@ public class JournalEntry implements Serializable{
     private String description;
     private int rating;
 
+    /** Constructor. */
     public JournalEntry(String newTitle, String newDescription, int newRating) {
         title = newTitle;
         description = newDescription;
         rating = newRating;
     }
 
+    /** Returns the title. */
     public String getTitle() {
         return title;
     }
 
+    /** Returns the description. */
     public String getDescription() {
         return description;
     }
 
+    /** Returns the rating. */
     public int getRating() {
         return rating;
     }

@@ -14,10 +14,13 @@ import java.sql.Timestamp;
  */
 
 public class EntryAdapter extends ResourceCursorAdapter {
+
+    /** Constructor. */
     public EntryAdapter(Context context, Cursor cursor){
         super(context, R.layout.entry_row, cursor);
     }
 
+    /** Gets the information from the database and displays it as an item in the list. */
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         TextView name = view.findViewById(R.id.textName);

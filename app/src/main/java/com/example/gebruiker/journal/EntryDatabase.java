@@ -13,10 +13,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class EntryDatabase extends SQLiteOpenHelper {
     private static EntryDatabase instance;
 
+    /** Constructor. */
     private EntryDatabase(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
+    /** Returns the database if available, otherwise calls the constructor. */
     public static EntryDatabase getInstance(Context context) {
         if (instance == null) {
             instance = new EntryDatabase(context, "entries", null, 1);
@@ -24,11 +26,13 @@ public class EntryDatabase extends SQLiteOpenHelper {
         return instance;
     }
 
+    /** Returns all data from entries table. */
     public Cursor selectAll() {
         SQLiteDatabase db = getWritableDatabase();
         return db.rawQuery("SELECT _id,* FROM entries", new String[] {});
     }
 
+    /** Inserts a new Journal Entry to the database. */
     public void insert(JournalEntry je) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -38,19 +42,19 @@ public class EntryDatabase extends SQLiteOpenHelper {
         db.insert("entries", null, values);
     }
 
+    /** Deletes a Journal Entry from the database. */
     public void delete(long id) {
         SQLiteDatabase db = getWritableDatabase();
         db.delete("entries", "_id = " + id, null);
     }
 
+    /** Creates the entries data table. */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
         sqLiteDatabase.execSQL("create table entries (_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT, rating INTEGER, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
-        sqLiteDatabase.execSQL("INSERT INTO entries(title, description, rating) VALUES('Do laundry', 'hoi i have done laundry today', 1)");
-        sqLiteDatabase.execSQL("INSERT INTO entries(title, description, rating) VALUES('Do laundry2', 'hoi i have done laundry today', 1)");
     }
 
+    /** Deletes the database and creates a new one. */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + "entries");

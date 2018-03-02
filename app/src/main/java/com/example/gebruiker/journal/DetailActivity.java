@@ -12,6 +12,8 @@ import org.w3c.dom.Text;
 
 public class DetailActivity extends AppCompatActivity {
 
+    /** Create method with own toolbar. Gets information of the Journal Entry from the intent and
+     *  displays this. */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,17 +29,18 @@ public class DetailActivity extends AppCompatActivity {
         description.setMovementMethod(new ScrollingMovementMethod());
     }
 
+    /** Method for displaying all information retrieved from the intent. */
     private void updateScreen(JournalEntry retrievedEntry, String dateString) {
         TextView title = findViewById(R.id.titleView);
         TextView date = findViewById(R.id.dateView);
         TextView description = findViewById(R.id.descriptionView);
-
         title.setText(retrievedEntry.getTitle());
         date.setText(dateString);
         description.setText(retrievedEntry.getDescription());
         imageResource(retrievedEntry.getRating());
     }
 
+    /** Method for displaying the right emoji. */
     private void imageResource(int rating) {
         ImageView mood = findViewById(R.id.moodView);
         int imageID = R.drawable.ic_sentiment_neutral_black_24dp;

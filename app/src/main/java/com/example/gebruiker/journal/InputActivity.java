@@ -12,6 +12,7 @@ import org.w3c.dom.Text;
 
 public class InputActivity extends AppCompatActivity {
 
+    /** Create method with own toolbar. */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +22,8 @@ public class InputActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
+    /** If the 'add' button gets clicked a Journal Entry object is created and put in the database.
+     *  Afterwards all the activities get closed and you are returned to the home screen. */
     public void addEntry(View view) {
         EntryDatabase db = EntryDatabase.getInstance(getApplicationContext());
         EditText titleText = findViewById(R.id.editTitle);
